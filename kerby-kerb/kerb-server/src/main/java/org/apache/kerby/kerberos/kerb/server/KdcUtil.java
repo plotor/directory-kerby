@@ -1,23 +1,27 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.kerb.server;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 
 import org.apache.kerby.kerberos.kerb.KrbException;
 import org.apache.kerby.kerberos.kerb.identity.backend.BackendConfig;
@@ -25,19 +29,20 @@ import org.apache.kerby.kerberos.kerb.identity.backend.IdentityBackend;
 import org.apache.kerby.kerberos.kerb.identity.backend.MemoryIdentityBackend;
 import org.apache.kerby.kerberos.kerb.transport.TransportPair;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.InetSocketAddress;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * KDC side utilities.
  */
+@Slf4j
 public final class KdcUtil {
 
-    private KdcUtil() { }
+    private KdcUtil() {
+    }
 
     /**
      * Get kdc configuration
+     *
      * @param confDir configuration directory
      * @return kdc configuration
      * @throws org.apache.kerby.kerberos.kerb.KrbException e.
@@ -47,10 +52,10 @@ public final class KdcUtil {
         if (kdcConfFile.exists()) {
             KdcConfig kdcConfig = new KdcConfig();
             try {
+                log.info("Load kdc conf: {}", kdcConfFile.getAbsolutePath());
                 kdcConfig.addKrb5Config(kdcConfFile);
             } catch (IOException e) {
-                throw new KrbException("Can not load the kdc configuration file "
-                        + kdcConfFile.getAbsolutePath());
+                throw new KrbException("Can not load the kdc configuration file " + kdcConfFile.getAbsolutePath());
             }
             return kdcConfig;
         }
@@ -60,6 +65,7 @@ public final class KdcUtil {
 
     /**
      * Get backend configuration
+     *
      * @param confDir configuration directory
      * @return backend configuration
      * @throws org.apache.kerby.kerberos.kerb.KrbException e.
@@ -69,6 +75,7 @@ public final class KdcUtil {
         if (backendConfigFile.exists()) {
             BackendConfig backendConfig = new BackendConfig();
             try {
+                log.info("Load backend conf: {}", backendConfigFile.getAbsolutePath());
                 backendConfig.addIniConfig(backendConfigFile);
             } catch (IOException e) {
                 throw new KrbException("Can not load the backend configuration file "
@@ -83,9 +90,9 @@ public final class KdcUtil {
     /**
      * Init the identity backend from backend configuration.
      *
-     * @throws org.apache.kerby.kerberos.kerb.KrbException e.
      * @param backendConfig backend configuration information
      * @return backend
+     * @throws org.apache.kerby.kerberos.kerb.KrbException e.
      */
     public static IdentityBackend getBackend(
             BackendConfig backendConfig) throws KrbException {
@@ -118,6 +125,7 @@ public final class KdcUtil {
 
     /**
      * Get KDC network transport addresses according to KDC setting.
+     *
      * @param setting kdc setting
      * @return UDP and TCP addresses pair
      * @throws KrbException e

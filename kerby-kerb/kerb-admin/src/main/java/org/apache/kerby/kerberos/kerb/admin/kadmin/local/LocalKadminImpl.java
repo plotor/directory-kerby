@@ -1,40 +1,23 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-package org.apache.kerby.kerberos.kerb.admin.kadmin.local;
 
-import org.apache.kerby.KOptions;
-import org.apache.kerby.kerberos.kerb.KrbException;
-import org.apache.kerby.kerberos.kerb.identity.backend.IdentityBackend;
-import org.apache.kerby.kerberos.kerb.keytab.Keytab;
-import org.apache.kerby.kerberos.kerb.request.KrbIdentity;
-import org.apache.kerby.kerberos.kerb.server.KdcConfig;
-import org.apache.kerby.kerberos.kerb.server.KdcSetting;
-import org.apache.kerby.kerberos.kerb.server.KdcUtil;
-import org.apache.kerby.kerberos.kerb.server.ServerSetting;
-import org.apache.kerby.kerberos.kerb.type.base.EncryptionKey;
-import org.apache.kerby.kerberos.kerb.common.EncryptionUtil;
-import org.apache.kerby.kerberos.kerb.common.KrbUtil;
-import org.apache.kerby.kerberos.kerb.identity.backend.BackendConfig;
-import org.apache.kerby.kerberos.kerb.type.base.PrincipalName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package org.apache.kerby.kerberos.kerb.admin.kadmin.local;
 
 import java.io.File;
 import java.util.Collections;
@@ -43,6 +26,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.kerby.KOptions;
+import org.apache.kerby.kerberos.kerb.KrbException;
+import org.apache.kerby.kerberos.kerb.common.EncryptionUtil;
+import org.apache.kerby.kerberos.kerb.common.KrbUtil;
+import org.apache.kerby.kerberos.kerb.identity.backend.BackendConfig;
+import org.apache.kerby.kerberos.kerb.identity.backend.IdentityBackend;
+import org.apache.kerby.kerberos.kerb.keytab.Keytab;
+import org.apache.kerby.kerberos.kerb.request.KrbIdentity;
+import org.apache.kerby.kerberos.kerb.server.KdcConfig;
+import org.apache.kerby.kerberos.kerb.server.KdcSetting;
+import org.apache.kerby.kerberos.kerb.server.KdcUtil;
+import org.apache.kerby.kerberos.kerb.server.ServerSetting;
+import org.apache.kerby.kerberos.kerb.type.base.EncryptionKey;
+import org.apache.kerby.kerberos.kerb.type.base.PrincipalName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The implementation of admin side admin facilities for local mode.
@@ -90,8 +90,7 @@ public class LocalKadminImpl implements LocalKadmin {
         }
 
         this.serverSetting = new KdcSetting(tmpKdcConfig, tmpBackendConfig);
-
-        backend = KdcUtil.getBackend(tmpBackendConfig);
+        this.backend = KdcUtil.getBackend(tmpBackendConfig);
     }
 
     /**
@@ -121,10 +120,10 @@ public class LocalKadminImpl implements LocalKadmin {
     public void checkBuiltinPrincipals() throws KrbException {
         String tgsPrincipal = getTgsPrincipal();
         String kadminPrincipal = getKadminPrincipal();
+        LOG.info("Check built-in principal, tgs: {}, kadmin: {}", tgsPrincipal, kadminPrincipal);
         if (backend.getIdentity(tgsPrincipal) == null
-            || backend.getIdentity(kadminPrincipal) == null) {
-            String errorMsg = "The built-in principals do not exist in the backend,"
-                + " please run the kdcinit tool.";
+                || backend.getIdentity(kadminPrincipal) == null) {
+            String errorMsg = "The built-in principals do not exist in the backend, please run the kdcinit tool.";
             LOG.error(errorMsg);
             throw new KrbException(errorMsg);
         }
@@ -179,30 +178,27 @@ public class LocalKadminImpl implements LocalKadmin {
     }
 
     @Override
-    public void addPrincipal(String principal, KOptions kOptions)
-            throws KrbException {
+    public void addPrincipal(String principal, KOptions kOptions) throws KrbException {
         principal = fixPrincipal(principal);
         KrbIdentity identity = AdminHelper.createIdentity(principal, kOptions);
-        List<EncryptionKey> keys = EncryptionUtil.generateKeys(
-                getKdcConfig().getEncryptionTypes());
+        List<EncryptionKey> keys = EncryptionUtil.generateKeys(getKdcConfig().getEncryptionTypes());
         identity.addKeys(keys);
         backend.addIdentity(identity);
     }
 
     @Override
-    public void addPrincipal(String principal, String password)
-            throws KrbException {
+    public void addPrincipal(String principal, String password) throws KrbException {
         principal = fixPrincipal(principal);
         addPrincipal(principal, password, new KOptions());
     }
 
     @Override
-    public void addPrincipal(String principal, String password, KOptions kOptions)
-            throws KrbException {
+    public void addPrincipal(String principal, String password, KOptions kOptions) throws KrbException {
+        // 追加 realm
         principal = fixPrincipal(principal);
         KrbIdentity identity = AdminHelper.createIdentity(principal, kOptions);
-        List<EncryptionKey> keys = EncryptionUtil.generateKeys(principal, password,
-                getKdcConfig().getEncryptionTypes());
+        List<EncryptionKey> keys = EncryptionUtil.generateKeys(
+                principal, password, getKdcConfig().getEncryptionTypes());
         identity.addKeys(keys);
         backend.addIdentity(identity);
     }
@@ -336,7 +332,7 @@ public class LocalKadminImpl implements LocalKadmin {
         List<String> result = new LinkedList<>();
 
         List<String> principalNames = getPrincipals();
-        for (String principal: principalNames) {
+        for (String principal : principalNames) {
             String toMatch = containsAt ? principal : principal.split("@")[0];
             Matcher m = pt.matcher(toMatch);
             if (m.matches()) {

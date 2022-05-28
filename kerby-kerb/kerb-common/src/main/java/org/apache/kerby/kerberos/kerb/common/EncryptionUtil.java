@@ -1,23 +1,28 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.kerb.common;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.kerby.asn1.type.Asn1Encodeable;
 import org.apache.kerby.asn1.type.Asn1Type;
@@ -29,11 +34,6 @@ import org.apache.kerby.kerberos.kerb.type.base.EncryptedData;
 import org.apache.kerby.kerberos.kerb.type.base.EncryptionKey;
 import org.apache.kerby.kerberos.kerb.type.base.EncryptionType;
 import org.apache.kerby.kerberos.kerb.type.base.KeyUsage;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class EncryptionUtil {
 
@@ -101,13 +101,12 @@ public class EncryptionUtil {
         return results;
     }
 
-    public static List<EncryptionKey> generateKeys(
-            String principal, String passwd,
-            List<EncryptionType> encryptionTypes) throws KrbException {
+    public static List<EncryptionKey> generateKeys(String principal,
+                                                   String passwd,
+                                                   List<EncryptionType> encryptionTypes) throws KrbException {
         List<EncryptionKey> results = new ArrayList<>(encryptionTypes.size());
         for (EncryptionType eType : encryptionTypes) {
-            EncryptionKey encKey = EncryptionHandler.string2Key(
-                principal, passwd, eType);
+            EncryptionKey encKey = EncryptionHandler.string2Key(principal, passwd, eType);
             encKey.setKvno(1);
             results.add(encKey);
         }
@@ -143,19 +142,19 @@ public class EncryptionUtil {
     }
 
     public static <T extends Asn1Type> T unseal(EncryptedData encrypted, EncryptionKey key,
-                                          KeyUsage usage, Class<T> krbType) throws KrbException {
+                                                KeyUsage usage, Class<T> krbType) throws KrbException {
         byte[] encoded = EncryptionHandler.decrypt(encrypted, key, usage);
         return KrbCodec.decode(encoded, krbType);
     }
 
     public static byte[] encrypt(EncryptionKey key,
-          byte[] plaintext, KeyUsage usage) throws KrbException {
+                                 byte[] plaintext, KeyUsage usage) throws KrbException {
         EncTypeHandler encType = EncryptionHandler.getEncHandler(key.getKeyType());
         return encType.encrypt(plaintext, key.getKeyData(), usage.getValue());
     }
 
     public static byte[] decrypt(EncryptionKey key,
-           byte[] cipherData, KeyUsage usage) throws KrbException {
+                                 byte[] cipherData, KeyUsage usage) throws KrbException {
         EncTypeHandler encType = EncryptionHandler.getEncHandler(key.getKeyType());
         return encType.decrypt(cipherData, key.getKeyData(), usage.getValue());
     }

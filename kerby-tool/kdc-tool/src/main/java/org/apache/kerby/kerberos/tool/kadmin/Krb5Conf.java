@@ -1,30 +1,30 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-package org.apache.kerby.kerberos.tool.kadmin;
 
-import org.apache.kerby.kerberos.kerb.server.KdcConfig;
-import org.apache.kerby.util.IOUtil;
+package org.apache.kerby.kerberos.tool.kadmin;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.kerby.kerberos.kerb.server.KdcConfig;
+import org.apache.kerby.util.IOUtil;
 
 /**
  * Generate krb5 file using given kdc server settings.
@@ -59,10 +59,8 @@ public class Krb5Conf {
         content = content.replaceAll("_REALM_", "" + kdcConfig.getKdcRealm());
         content = content.replaceAll("_KDC_HOST_", "" + kdcConfig.getKdcHost());
 
-        int kdcPort = kdcConfig.allowUdp() ? kdcConfig.getKdcUdpPort()
-                : kdcConfig.getKdcTcpPort();
-        content = content.replaceAll("_KDC_PORT_",
-                String.valueOf(kdcPort));
+        int kdcPort = kdcConfig.allowUdp() ? kdcConfig.getKdcUdpPort() : kdcConfig.getKdcTcpPort();
+        content = content.replaceAll("_KDC_PORT_", String.valueOf(kdcPort));
 
         if (kdcConfig.allowTcp()) {
             content = content.replaceAll("#_KDC_TCP_PORT_", "kdc_tcp_port = " + kdcConfig.getKdcTcpPort());

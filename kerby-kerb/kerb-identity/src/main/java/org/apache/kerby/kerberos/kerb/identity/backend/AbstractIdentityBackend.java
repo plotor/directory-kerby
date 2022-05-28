@@ -1,22 +1,22 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.kerb.identity.backend;
 
 import java.io.IOException;
@@ -47,11 +47,11 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractIdentityBackend
         extends Configured implements IdentityBackend {
 
-    private static Logger logger =
-            LoggerFactory.getLogger(AbstractIdentityBackend.class);
+    private static Logger logger = LoggerFactory.getLogger(AbstractIdentityBackend.class);
 
     /**
      * Get the Backend Config.
+     *
      * @return The backend config
      */
     protected BackendConfig getBackendConfig() {
@@ -85,38 +85,43 @@ public abstract class AbstractIdentityBackend
 
     /**
      * Perform the real initialization work for the backend.
+     *
      * @throws KrbException e
      */
-    protected void doInitialize() throws KrbException { }
+    protected void doInitialize() throws KrbException {
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void start() {
+        logger.debug("Start called");
         doStart();
-        logger.debug("start called");
     }
 
     /**
      * Perform the real start work for the backend.
      */
-    protected void doStart() { }
+    protected void doStart() {
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void stop() throws KrbException {
-        doStop();
         logger.debug("stop called");
+        doStop();
     }
 
     /**
      * Perform the real stop work for the backend.
+     *
      * @throws KrbException e
      */
-    protected void doStop() throws KrbException { }
+    protected void doStop() throws KrbException {
+    }
 
     /**
      * {@inheritDoc}
@@ -130,7 +135,8 @@ public abstract class AbstractIdentityBackend
     /**
      * Perform the real release work for the backend.
      */
-    protected void doRelease() { }
+    protected void doRelease() {
+    }
 
     /**
      * {@inheritDoc}
@@ -143,6 +149,7 @@ public abstract class AbstractIdentityBackend
 
     /**
      * Perform the real work to get identities.
+     *
      * @return The identities
      * @throws KrbException e
      */
@@ -168,9 +175,10 @@ public abstract class AbstractIdentityBackend
 
     /**
      * Add an identity, invoked by addIdentity.
+     *
      * @param principalName The principal name
      * @return The added identity
-     * @throws  KrbException e
+     * @throws KrbException e
      */
     protected abstract KrbIdentity doGetIdentity(String principalName) throws KrbException;
 
@@ -179,13 +187,13 @@ public abstract class AbstractIdentityBackend
      */
     @Override
     public AuthorizationData getIdentityAuthorizationData(KdcClientRequest kdcClientRequest,
-            EncTicketPart encTicketPart) throws KrbException {
+                                                          EncTicketPart encTicketPart) throws KrbException {
         if (kdcClientRequest == null) {
             throw new IllegalArgumentException("Invalid identity");
         }
 
         logger.debug("getIdentityAuthorizationData called, krbIdentity = {}",
-                     kdcClientRequest.getClientPrincipal());
+                kdcClientRequest.getClientPrincipal());
 
         AuthorizationData authData = doGetIdentityAuthorizationData(kdcClientRequest,
                 encTicketPart);
@@ -197,14 +205,15 @@ public abstract class AbstractIdentityBackend
 
     /**
      * Get an identity's Authorization Data, invoked by getIdentityAuthorizationData.
+     *
      * @param kdcClientRequest The KdcClientRequest
-     * @param encTicketPart The EncTicketPart being built for the KrbIdentity
+     * @param encTicketPart    The EncTicketPart being built for the KrbIdentity
      * @return The Authorization Data
      * @throws KrbException e
      */
     protected AuthorizationData doGetIdentityAuthorizationData(
             KdcClientRequest kdcClientRequest, EncTicketPart encTicketPart)
-                throws KrbException {
+            throws KrbException {
         if (kdcClientRequest.isToken()) {
             KrbToken krbToken = new KrbToken(kdcClientRequest.getToken(), TokenFormat.JWT);
             AdToken adToken = new AdToken();
@@ -225,26 +234,25 @@ public abstract class AbstractIdentityBackend
         return null;
     }
 
-    /** {@inheritDoc} */
     @Override
     public KrbIdentity addIdentity(KrbIdentity identity) throws KrbException {
         if (identity == null) {
             throw new IllegalArgumentException("null identity to add");
         }
+
         if (doGetIdentity(identity.getPrincipalName()) != null) {
-            throw new KrbException("Principal already exists: "
-                    + identity.getPrincipalName());
+            throw new KrbException("Principal already exists: " + identity.getPrincipalName());
         }
 
         KrbIdentity added = doAddIdentity(identity);
-        logger.debug("addIdentity {}, principalName = {}",
-                added != null ? "successful" : "failed", identity.getPrincipalName());
+        logger.info("Add identity {}, principalName = {}", added != null ? "successful" : "failed", identity.getPrincipalName());
 
         return added;
     }
 
     /**
      * Add an identity, invoked by addIdentity, and return added identity.
+     *
      * @param identity The identity to be added
      * @return The added identity
      * @throws KrbException e
@@ -262,7 +270,7 @@ public abstract class AbstractIdentityBackend
 
         if (doGetIdentity(identity.getPrincipalName()) == null) {
             logger.error("Error occurred while updating identity, principal "
-                + identity.getPrincipalName() + " does not exists.");
+                    + identity.getPrincipalName() + " does not exists.");
             throw new KrbException("Principal does not exist.");
         }
 
@@ -275,6 +283,7 @@ public abstract class AbstractIdentityBackend
 
     /**
      * Update an identity, invoked by updateIdentity, and return updated identity.
+     *
      * @param identity The origin identity
      * @return The updated identity
      * @throws KrbException e
@@ -303,6 +312,7 @@ public abstract class AbstractIdentityBackend
 
     /**
      * Delete an identity, invoked by deleteIndentity.
+     *
      * @param principalName The principal name
      * @throws KrbException e
      */

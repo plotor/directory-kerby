@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.kerby.kerberos.kerb.client.request.KdcRequest</OriginalElement>
+  <nodes>
+    <node x="480.36538461538464" y="-16.5">org.apache.kerby.kerberos.kerb.client.request.KdcRequest</node>
+    <node x="405.5" y="149.5">org.apache.kerby.kerberos.kerb.client.request.AsRequestWithPasswd</node>
+    <node x="696.5" y="149.5">org.apache.kerby.kerberos.kerb.client.request.AsRequestWithKeytab</node>
+    <node x="-136.0" y="232.5">org.apache.kerby.kerberos.kerb.client.request.TgsRequestWithToken</node>
+    <node x="981.5" y="149.5">org.apache.kerby.kerberos.kerb.client.request.AsRequestWithCert</node>
+    <node x="1232.0" y="232.5">org.apache.kerby.kerberos.kerb.client.request.AsRequestWithToken</node>
+    <node x="37.21153846153857" y="66.5">org.apache.kerby.kerberos.kerb.client.request.TgsRequest</node>
+    <node x="-126.5" y="149.5">org.apache.kerby.kerberos.kerb.client.request.ArmoredTgsRequest</node>
+    <node x="885.25" y="66.5">org.apache.kerby.kerberos.kerb.client.request.AsRequest</node>
+    <node x="1241.5" y="149.5">org.apache.kerby.kerberos.kerb.client.request.ArmoredAsRequest</node>
+    <node x="142.5" y="149.5">org.apache.kerby.kerberos.kerb.client.request.TgsRequestWithTgt</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.AsRequestWithPasswd" target="org.apache.kerby.kerberos.kerb.client.request.AsRequest" relationship="GENERALIZATION">
+      <point x="-4.5454545454504114E-4" y="-16.4998181818182" />
+      <point x="540.9995454545455" y="124.81818181818181" />
+      <point x="965.2495454545456" y="124.81818181818181" />
+      <point x="-4.545454544313543E-4" y="16.500181818181815" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.ArmoredTgsRequest" target="org.apache.kerby.kerberos.kerb.client.request.TgsRequest" relationship="GENERALIZATION">
+      <point x="-4.545454544881977E-4" y="-16.4998181818182" />
+      <point x="-2.000454545454488" y="124.81818181818181" />
+      <point x="122.7115454545455" y="124.81818181818181" />
+      <point x="6.993006934408186E-6" y="16.500181818181815" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.ArmoredAsRequest" target="org.apache.kerby.kerberos.kerb.client.request.AsRequest" relationship="GENERALIZATION">
+      <point x="-4.545454544313543E-4" y="-16.4998181818182" />
+      <point x="1360.4995454545456" y="124.81818181818181" />
+      <point x="965.2495454545456" y="124.81818181818181" />
+      <point x="-4.545454544313543E-4" y="16.500181818181815" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.TgsRequestWithToken" target="org.apache.kerby.kerberos.kerb.client.request.ArmoredTgsRequest" relationship="GENERALIZATION">
+      <point x="0.0" y="-16.5" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.TgsRequestWithTgt" target="org.apache.kerby.kerberos.kerb.client.request.TgsRequest" relationship="GENERALIZATION">
+      <point x="-4.5454545454504114E-4" y="-16.4998181818182" />
+      <point x="263.99954545454545" y="124.81818181818181" />
+      <point x="122.7115454545455" y="124.81818181818181" />
+      <point x="6.993006934408186E-6" y="16.500181818181815" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.AsRequestWithToken" target="org.apache.kerby.kerberos.kerb.client.request.ArmoredAsRequest" relationship="GENERALIZATION">
+      <point x="0.0" y="-16.5" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.AsRequest" target="org.apache.kerby.kerberos.kerb.client.request.KdcRequest" relationship="GENERALIZATION">
+      <point x="-4.545454544313543E-4" y="-16.499818181818185" />
+      <point x="965.2495454545456" y="41.81818181818181" />
+      <point x="566.3655454545454" y="41.81818181818181" />
+      <point x="1.608391607987869E-4" y="16.50018181818181" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.AsRequestWithKeytab" target="org.apache.kerby.kerberos.kerb.client.request.AsRequest" relationship="GENERALIZATION">
+      <point x="-4.545454544313543E-4" y="-16.4998181818182" />
+      <point x="828.9995454545456" y="124.81818181818181" />
+      <point x="965.2495454545456" y="124.81818181818181" />
+      <point x="-4.545454544313543E-4" y="16.500181818181815" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.AsRequestWithCert" target="org.apache.kerby.kerberos.kerb.client.request.AsRequest" relationship="GENERALIZATION">
+      <point x="-4.545454544313543E-4" y="-16.4998181818182" />
+      <point x="1101.4995454545456" y="124.81818181818181" />
+      <point x="965.2495454545456" y="124.81818181818181" />
+      <point x="-4.545454544313543E-4" y="16.500181818181815" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.client.request.TgsRequest" target="org.apache.kerby.kerberos.kerb.client.request.KdcRequest" relationship="GENERALIZATION">
+      <point x="6.993006934408186E-6" y="-16.499818181818185" />
+      <point x="122.7115454545455" y="41.81818181818181" />
+      <point x="566.3655454545454" y="41.81818181818181" />
+      <point x="1.608391607987869E-4" y="16.50018181818181" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="504.0" y="55.0" />
+  <SelectedNodes>
+    <node>org.apache.kerby.kerberos.kerb.client.request.ArmoredAsRequest</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.KdcRequest</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.AsRequest</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.ArmoredTgsRequest</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.TgsRequestWithToken</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.AsRequestWithToken</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.AsRequestWithPasswd</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.TgsRequestWithTgt</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.TgsRequest</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.AsRequestWithKeytab</node>
+    <node>org.apache.kerby.kerberos.kerb.client.request.AsRequestWithCert</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

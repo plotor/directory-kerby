@@ -1,22 +1,22 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.kerb.crypto;
 
 import org.apache.kerby.kerberos.kerb.KrbErrorCode;
@@ -47,6 +47,7 @@ public class EncryptionHandler {
 
     /**
      * Get the encryption type.
+     *
      * @param eType The encryption type string.
      * @return The EncryptionType
      * @throws KrbException e
@@ -174,8 +175,8 @@ public class EncryptionHandler {
      * Encrypt with the encryption key and key usage.
      *
      * @param plainText The plain test
-     * @param key The encryption key
-     * @param usage The key usage
+     * @param key       The encryption key
+     * @param usage     The key usage
      * @return The encrypted data
      * @throws KrbException e
      */
@@ -197,8 +198,8 @@ public class EncryptionHandler {
     /**
      * Decrypt with the encryption key and key usage.
      *
-     * @param data The encrypted data
-     * @param key The encryption key
+     * @param data  The encrypted data
+     * @param key   The encryption key
      * @param usage The key usage
      * @return The decrypted data
      * @throws KrbException e
@@ -230,7 +231,7 @@ public class EncryptionHandler {
     /**
      * Return true if the the encryption handler is implemented.
      *
-     * @param eType   The encryption type
+     * @param eType The encryption type
      * @return true if the encryption handler is implemented
      */
     public static boolean isImplemented(EncryptionType eType) {
@@ -246,31 +247,33 @@ public class EncryptionHandler {
     /**
      * String to key.
      *
-     * @param principalName  The principal name
-     * @param passPhrase   The pass phrase
-     * @param eType The encryption type
+     * @param principalName The principal name
+     * @param passPhrase    The pass phrase
+     * @param eType         The encryption type
      * @return The encryption key
      * @throws KrbException e
      */
     public static EncryptionKey string2Key(String principalName,
-          String passPhrase, EncryptionType eType) throws KrbException {
+                                           String passPhrase,
+                                           EncryptionType eType) throws KrbException {
         PrincipalName principal = new PrincipalName(principalName);
-        return string2Key(passPhrase,
-                PrincipalName.makeSalt(principal), null, eType);
+        return string2Key(passPhrase, PrincipalName.makeSalt(principal), null, eType);
     }
 
     /**
      * String to key.
      *
-     * @param string The string
-     * @param salt The salt
+     * @param string    The string
+     * @param salt      The salt
      * @param s2kparams The params
-     * @param eType The encryption type
+     * @param eType     The encryption type
      * @return The encryption key
      * @throws KrbException e
      */
-    public static EncryptionKey string2Key(String string, String salt,
-                   byte[] s2kparams, EncryptionType eType) throws KrbException {
+    public static EncryptionKey string2Key(String string,
+                                           String salt,
+                                           byte[] s2kparams,
+                                           EncryptionType eType) throws KrbException {
         EncTypeHandler handler = getEncHandler(eType);
         byte[] keyBytes = handler.str2key(string, salt, s2kparams);
         return new EncryptionKey(eType, keyBytes);
@@ -294,7 +297,7 @@ public class EncryptionHandler {
     /**
      * Random to key.
      *
-     * @param eType The encryption type
+     * @param eType       The encryption type
      * @param randomBytes The random bytes
      * @return The encryption key
      * @throws KrbException e
@@ -309,6 +312,7 @@ public class EncryptionHandler {
 
     /**
      * Generate a secure and random key seeded with an existing encryption key.
+     *
      * @param encKey The encryption key
      * @return encryption key
      */

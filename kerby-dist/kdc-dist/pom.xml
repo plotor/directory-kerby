@@ -77,13 +77,12 @@
     </dependency>
     -->
 
-    <!-- For mysql backend
+    <!-- For mysql backend-->
     <dependency>
       <groupId>org.apache.kerby</groupId>
       <artifactId>mysql-backend</artifactId>
       <version>${project.version}</version>
     </dependency>
-    -->
 
     <!-- For json backend -->
     <dependency>

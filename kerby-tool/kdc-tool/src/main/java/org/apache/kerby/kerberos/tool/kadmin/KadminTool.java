@@ -1,23 +1,29 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.tool.kadmin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+
+import javax.security.auth.login.LoginException;
 
 import org.apache.kerby.KOptions;
 import org.apache.kerby.kerberos.kerb.KrbException;
@@ -25,6 +31,7 @@ import org.apache.kerby.kerberos.kerb.admin.kadmin.KadminOption;
 import org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadmin;
 import org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadminImpl;
 import org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalCommand;
+import org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalsCommand;
 import org.apache.kerby.kerberos.tool.kadmin.command.ChangePasswordCommand;
 import org.apache.kerby.kerberos.tool.kadmin.command.DeletePrincipalCommand;
 import org.apache.kerby.kerberos.tool.kadmin.command.GetPrincipalCommand;
@@ -34,7 +41,6 @@ import org.apache.kerby.kerberos.tool.kadmin.command.KeytabRemoveCommand;
 import org.apache.kerby.kerberos.tool.kadmin.command.ListPrincipalCommand;
 import org.apache.kerby.kerberos.tool.kadmin.command.ModifyPrincipalCommand;
 import org.apache.kerby.kerberos.tool.kadmin.command.RenamePrincipalCommand;
-import org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalsCommand;
 import org.apache.kerby.util.OSUtil;
 import org.jline.reader.Completer;
 import org.jline.reader.EndOfFileException;
@@ -47,16 +53,13 @@ import org.jline.terminal.TerminalBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.LoginException;
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
 /**
  * Ref. MIT kadmin command tool usage.
  */
 public class KadminTool {
+
     private static final Logger LOG = LoggerFactory.getLogger(KadminTool.class);
+
     private static File confDir;
 
     private static final String PROMPT = KadminTool.class.getSimpleName() + ".local";
@@ -101,7 +104,7 @@ public class KadminTool {
             + "list_requests, lr, ?     List available requests.\n"
             + "quit, exit, q            Exit program.";
 
-    private static  final String USAGE = (OSUtil.isWindows()
+    public static final String USAGE = (OSUtil.isWindows()
             ? "Usage: bin\\kadmin.cmd" : "Usage: sh bin/kadmin.sh")
             + " <conf-dir> <-c cache_name>|<-k keytab>\n"
             + "\tExample:\n"
@@ -117,6 +120,7 @@ public class KadminTool {
     }
 
     private static void execute(LocalKadmin kadmin, String command) {
+        System.out.println("Execute command: " + command);
         //Omit the leading and trailing whitespace.
         command = command.trim();
         if (command.equals("list_requests")
@@ -184,8 +188,7 @@ public class KadminTool {
             }
 
             if (!confDir.exists()) {
-                throw new RuntimeException("Can not locate KDC backend directory "
-                        + confDir.getAbsolutePath());
+                throw new RuntimeException("Can not locate KDC backend directory " + confDir.getAbsolutePath());
             }
         }
         LOG.info("Conf dir:" + confDir.getAbsolutePath());
@@ -230,8 +233,7 @@ public class KadminTool {
             try {
                 AuthUtil.loginUsingTicketCache(kadminPrincipal, ccFile);
             } catch (LoginException e) {
-                System.err.println("Could not login with: " + kadminPrincipal
-                        + " " + e.getMessage());
+                System.err.println("Could not login with: " + kadminPrincipal + " " + e.getMessage());
                 return;
             }
         } else if (kOptions.contains(KadminOption.K)) {
@@ -243,8 +245,7 @@ public class KadminTool {
             try {
                 AuthUtil.loginUsingKeytab(kadminPrincipal, keyTabFile);
             } catch (LoginException e) {
-                System.err.println("Could not login with: " + kadminPrincipal
-                        + " " + e.getMessage());
+                System.err.println("Could not login with: " + kadminPrincipal + " " + e.getMessage());
                 return;
             }
         } else {
@@ -258,8 +259,8 @@ public class KadminTool {
         } else {
 
             Completer completer = new StringsCompleter("add_principal", "batch_anks", "ktadd", "ktremove",
-                                                       "delete_principal", "modify_principal", "rename_principal",
-                                                       "change_password", "list_principals", "get_principal");
+                    "delete_principal", "modify_principal", "rename_principal",
+                    "change_password", "list_principals", "get_principal");
 
             Terminal terminal = TerminalBuilder.terminal();
             LineReader lineReader = LineReaderBuilder.builder().completer(completer).terminal(terminal).build();

@@ -1,23 +1,30 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License. 
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.tool.kinit;
+
+import java.io.Console;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Scanner;
 
 import org.apache.kerby.KOption;
 import org.apache.kerby.KOptionGroup;
@@ -37,21 +44,14 @@ import org.apache.kerby.kerberos.kerb.type.ticket.TgtTicket;
 import org.apache.kerby.util.OSUtil;
 import org.apache.kerby.util.SysUtil;
 
-import java.io.Console;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Scanner;
-
 /**
  * kinit like tool
- *
+ * <p>
  * Ref. MIT kinit command tool usage.
  */
 public class KinitTool {
 
-    private static final String USAGE = (OSUtil.isWindows()
+    public static final String USAGE = (OSUtil.isWindows()
             ? "Usage: bin\\kinit.cmd" : "Usage: sh bin/kinit.sh")
             + " <-conf conf_dir> [-V] [-l lifetime] [-s start_time]\n"
             + "\t\t[-r renewable_life] [-f | -F] [-p | -P] -n [-a | -A] [-C] [-E]\n"
@@ -92,11 +92,11 @@ public class KinitTool {
     }
 
     private static final String KVNO_USAGE = (OSUtil.isWindows()
-        ? "Usage: bin\\kinit.cmd" : "Usage: sh bin/kinit.sh")
-        + " <-conf conf_dir> <-c cachename> <-S service_name>\n\n"
-        + "\tDESCRIPTION:\n"
-        + "\t\tkinit obtains a service ticket for the specified principal and prints out the key version number.\n"
-        + "\n";
+            ? "Usage: bin\\kinit.cmd" : "Usage: sh bin/kinit.sh")
+            + " <-conf conf_dir> <-c cachename> <-S service_name>\n\n"
+            + "\tDESCRIPTION:\n"
+            + "\t\tkinit obtains a service ticket for the specified principal and prints out the key version number.\n"
+            + "\n";
 
     private static void printKvnoUsage(String error) {
         System.err.println(error + "\n");
@@ -142,6 +142,7 @@ public class KinitTool {
             System.exit(1);
         }
 
+        // 刷新本地 service ticket 缓存
         if (ktOptions.contains(KinitOption.RENEW)) {
             if (ktOptions.contains(KinitOption.KRB5_CACHE)) {
                 String ccName = ktOptions.getStringOption(KinitOption.KRB5_CACHE);
@@ -149,12 +150,14 @@ public class KinitTool {
 
                 SgtTicket sgtTicket = null;
                 try {
+                    // 获取 service ticket
                     sgtTicket = krbClient.requestSgt(ccFile, null);
                 } catch (KrbException e) {
                     System.err.println("kinit: " + e.getKrbErrorCode().getMessage());
                 }
 
                 try {
+                    // 更新本地 service ticket 缓存
                     krbClient.renewTicket(sgtTicket, ccFile);
                 } catch (KrbException e) {
                     System.err.println("kinit: " + e.getKrbErrorCode().getMessage());
@@ -173,6 +176,7 @@ public class KinitTool {
                 String servicePrincipal = ktOptions.getStringOption(KinitOption.SERVICE);
                 SgtTicket sgtTicket = null;
                 try {
+                    // 获取 service ticket
                     sgtTicket = krbClient.requestSgt(ccFile, servicePrincipal);
                 } catch (KrbException e) {
                     System.err.println("Kinit: get service ticket failed: " + e.getMessage());
@@ -180,6 +184,7 @@ public class KinitTool {
                 }
 
                 try {
+                    // 写入本地 service ticket 缓存
                     krbClient.storeTicket(sgtTicket, ccFile);
                 } catch (KrbException e) {
                     System.err.println("Kinit: store ticket failed: " + e.getMessage());
@@ -187,7 +192,7 @@ public class KinitTool {
                 }
 
                 System.out.println(sgtTicket.getEncKdcRepPart().getSname().getName() + ": knvo = "
-                    + sgtTicket.getTicket().getEncryptedEncPart().getKvno());
+                        + sgtTicket.getTicket().getEncryptedEncPart().getKvno());
                 return;
             }
         }
@@ -195,15 +200,19 @@ public class KinitTool {
         if (ktOptions.contains(KinitOption.ANONYMOUS)) {
             ktOptions.add(PkinitOption.USE_ANONYMOUS);
             ktOptions.add(PkinitOption.X509_ANCHORS);
-        } else if (!ktOptions.contains(KinitOption.USE_KEYTAB)) {
-            //If not request tickets by keytab than by password.
+        }
+        // 不是通过 keytab，而是 passwd 请求
+        else if (!ktOptions.contains(KinitOption.USE_KEYTAB)) {
+            // If not request tickets by keytab than by password.
             ktOptions.add(KinitOption.USE_PASSWD);
+            // 从控制台获取密码
             String password = getPassword(principal);
             ktOptions.add(KinitOption.USER_PASSWD, password);
         }
 
         TgtTicket tgt = null;
         try {
+            // 请求获取 TGT
             tgt = krbClient.requestTgt(convertOptions(ktOptions));
         } catch (KrbException e) {
             System.err.println("Authentication failed: " + e.getMessage());
@@ -220,15 +229,16 @@ public class KinitTool {
         }
 
         try {
+            //
             krbClient.storeTicket(tgt, ccacheFile);
         } catch (KrbException e) {
             System.err.println("Store ticket failed: " + e.getMessage());
             System.exit(1);
         }
 
-        System.out.println("Successfully requested and stored ticket in "
-            + ccacheFile.getAbsolutePath());
+        System.out.println("Successfully requested and stored ticket in " + ccacheFile.getAbsolutePath());
 
+        // 请求获取 SGT
         if (ktOptions.contains(KinitOption.SERVICE)) {
             System.out.println("Use tgt to request a service ticket.");
             String servicePrincipal = ktOptions.getStringOption(KinitOption.SERVICE);
@@ -240,8 +250,9 @@ public class KinitTool {
                 return;
             }
 
-            System.out.println(sgtTicket.getEncKdcRepPart().getSname().getName() + ": knvo = "
-                + sgtTicket.getTicket().getEncryptedEncPart().getKvno());
+            System.out.println(
+                    sgtTicket.getEncKdcRepPart().getSname().getName()
+                            + ": knvo = " + sgtTicket.getTicket().getEncryptedEncPart().getKvno());
         }
     }
 
@@ -359,6 +370,7 @@ public class KinitTool {
 
     /**
      * Convert kinit tool options to KOptions.
+     *
      * @param toolOptions
      * @return KOptions
      */

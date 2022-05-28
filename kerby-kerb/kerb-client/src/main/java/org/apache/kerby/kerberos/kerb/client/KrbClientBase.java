@@ -1,23 +1,26 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *  
- *    http://www.apache.org/licenses/LICENSE-2.0
- *  
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License. 
- *  
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.kerb.client;
+
+import java.io.File;
+import java.io.IOException;
 
 import org.apache.kerby.KOptions;
 import org.apache.kerby.kerberos.kerb.KrbException;
@@ -30,9 +33,6 @@ import org.apache.kerby.kerberos.kerb.type.ticket.SgtTicket;
 import org.apache.kerby.kerberos.kerb.type.ticket.TgtTicket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * A Krb client API for applications to interact with KDC
@@ -47,6 +47,7 @@ public class KrbClientBase {
 
     /**
      * Default constructor.
+     *
      * @throws KrbException e
      */
     public KrbClientBase() throws KrbException {
@@ -57,6 +58,7 @@ public class KrbClientBase {
 
     /**
      * Construct with prepared KrbConfig.
+     *
      * @param krbConfig The krb config
      */
     public KrbClientBase(KrbConfig krbConfig) {
@@ -67,6 +69,7 @@ public class KrbClientBase {
 
     /**
      * Constructor with conf dir
+     *
      * @param confDir The conf dir
      * @throws KrbException e
      */
@@ -78,6 +81,7 @@ public class KrbClientBase {
 
     /**
      * Constructor with prepared KrbClientBase.
+     *
      * @param krbClient The krb client
      */
     public KrbClientBase(KrbClientBase krbClient) {
@@ -90,6 +94,7 @@ public class KrbClientBase {
 
     /**
      * Set KDC realm for ticket request
+     *
      * @param realm The realm
      */
     public void setKdcRealm(String realm) {
@@ -98,6 +103,7 @@ public class KrbClientBase {
 
     /**
      * Set KDC host.
+     *
      * @param kdcHost The kdc host
      */
     public void setKdcHost(String kdcHost) {
@@ -106,6 +112,7 @@ public class KrbClientBase {
 
     /**
      * Set KDC tcp port.
+     *
      * @param kdcTcpPort The kdc tcp port
      */
     public void setKdcTcpPort(int kdcTcpPort) {
@@ -118,6 +125,7 @@ public class KrbClientBase {
 
     /**
      * Set to allow UDP or not.
+     *
      * @param allowUdp true if allow udp
      */
     public void setAllowUdp(boolean allowUdp) {
@@ -126,6 +134,7 @@ public class KrbClientBase {
 
     /**
      * Set to allow TCP or not.
+     *
      * @param allowTcp true if allow tcp
      */
     public void setAllowTcp(boolean allowTcp) {
@@ -134,6 +143,7 @@ public class KrbClientBase {
 
     /**
      * Set KDC udp port. Only makes sense when allowUdp is set.
+     *
      * @param kdcUdpPort The kdc udp port
      */
     public void setKdcUdpPort(int kdcUdpPort) {
@@ -146,6 +156,7 @@ public class KrbClientBase {
 
     /**
      * Set time out for connection
+     *
      * @param timeout in seconds
      */
     public void setTimeout(int timeout) {
@@ -154,6 +165,7 @@ public class KrbClientBase {
 
     /**
      * Init the client.
+     *
      * @throws KrbException e
      */
     public void init() throws KrbException {
@@ -163,6 +175,7 @@ public class KrbClientBase {
 
     /**
      * Get krb client settings from options and configs.
+     *
      * @return setting
      */
     public KrbSetting getSetting() {
@@ -175,6 +188,7 @@ public class KrbClientBase {
 
     /**
      * Request a TGT with using well prepared requestOptions.
+     *
      * @param requestOptions The request options
      * @return TGT
      * @throws KrbException e
@@ -189,13 +203,13 @@ public class KrbClientBase {
 
     /**
      * Request a service ticket with a TGT targeting for a server
-     * @param tgt The tgt ticket
+     *
+     * @param tgt             The tgt ticket
      * @param serverPrincipal The server principal
      * @return Service ticket
      * @throws KrbException e
      */
-    public SgtTicket requestSgt(TgtTicket tgt,
-                                String serverPrincipal) throws KrbException {
+    public SgtTicket requestSgt(TgtTicket tgt, String serverPrincipal) throws KrbException {
         KOptions requestOptions = new KOptions();
         requestOptions.add(KrbOption.USE_TGT, tgt);
         requestOptions.add(KrbOption.SERVER_PRINCIPAL, serverPrincipal);
@@ -204,6 +218,7 @@ public class KrbClientBase {
 
     /**
      * Request a service ticket provided request options
+     *
      * @param requestOptions The request options
      * @return service ticket
      * @throws KrbException e
@@ -214,7 +229,8 @@ public class KrbClientBase {
 
     /**
      * Request a service ticket
-     * @param ccFile The credential cache file
+     *
+     * @param ccFile           The credential cache file
      * @param servicePrincipal The service principal
      * @return service ticket
      * @throws KrbException e
@@ -240,13 +256,13 @@ public class KrbClientBase {
 
     /**
      * Store tgt into the specified credential cache file.
-     * @param tgtTicket The tgt ticket
+     *
+     * @param tgtTicket  The tgt ticket
      * @param ccacheFile The credential cache file
      * @throws KrbException e
      */
-    public void storeTicket(TgtTicket tgtTicket,
-                            File ccacheFile) throws KrbException {
-        LOG.info("Storing the tgt to the credential cache file.");
+    public void storeTicket(TgtTicket tgtTicket, File ccacheFile) throws KrbException {
+        LOG.info("Storing the tgt to the credential cache file: {}" + ccacheFile.getAbsolutePath());
         if (!ccacheFile.exists()) {
             createCacheFile(ccacheFile);
         }
@@ -265,7 +281,8 @@ public class KrbClientBase {
 
     /**
      * Store sgt into the specified credential cache file.
-     * @param sgtTicket The sgt ticket
+     *
+     * @param sgtTicket  The sgt ticket
      * @param ccacheFile The credential cache file
      * @throws KrbException e
      */
@@ -303,7 +320,8 @@ public class KrbClientBase {
 
     /**
      * Store sgt into the specified credential cache file.
-     * @param sgtTicket The sgt ticket
+     *
+     * @param sgtTicket  The sgt ticket
      * @param ccacheFile The credential cache file
      * @throws KrbException e
      */
@@ -321,7 +339,7 @@ public class KrbClientBase {
             }
         } else {
             throw new IllegalArgumentException("Invalid ccache file, "
-                + "not exist or writable: " + ccacheFile.getAbsolutePath());
+                    + "not exist or writable: " + ccacheFile.getAbsolutePath());
         }
     }
 
@@ -332,7 +350,7 @@ public class KrbClientBase {
         try {
             if (!ccacheFile.createNewFile()) {
                 throw new KrbException("Failed to create ccache file "
-                    + ccacheFile.getAbsolutePath());
+                        + ccacheFile.getAbsolutePath());
             }
             // sets read-write permissions to owner only
             ccacheFile.setReadable(true, true);
@@ -341,7 +359,7 @@ public class KrbClientBase {
             }
         } catch (IOException e) {
             throw new KrbException("Failed to create ccache file "
-                + ccacheFile.getAbsolutePath(), e);
+                    + ccacheFile.getAbsolutePath(), e);
         }
     }
 

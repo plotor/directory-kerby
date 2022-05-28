@@ -19,15 +19,18 @@
  */
 package org.apache.kerby.kerberos.kerb.client;
 
+import java.io.File;
+
 import org.apache.kerby.KOptions;
 import org.apache.kerby.kerberos.kerb.KrbException;
 import org.apache.kerby.kerberos.kerb.type.ticket.TgtTicket;
 
-import java.io.File;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A Krb client API for applications to interact with KDC
  */
+@Slf4j
 public class KrbClient extends KrbClientBase {
 
     /**

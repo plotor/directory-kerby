@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand</OriginalElement>
+  <nodes>
+    <node x="119.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.GetPrincipalCommand</node>
+    <node x="404.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalCommand</node>
+    <node x="1197.0" y="-17.0">org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand</node>
+    <node x="693.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalsCommand</node>
+    <node x="2543.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.RenamePrincipalCommand</node>
+    <node x="992.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.ChangePasswordCommand</node>
+    <node x="-155.00000000000023" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.KeytabAddCommand</node>
+    <node x="1323.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.DeletePrincipalCommand</node>
+    <node x="1944.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.ListPrincipalCommand</node>
+    <node x="1634.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.KeytabRemoveCommand</node>
+    <node x="2229.0" y="66.0">org.apache.kerby.kerberos.tool.kadmin.command.ModifyPrincipalCommand</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.GetPrincipalCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363637156137E-4" y="-16.499545454545455" />
+      <point x="251.499636363636" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.RenamePrincipalCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363639998308E-4" y="-16.499545454545455" />
+      <point x="2695.4996363636365" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.KeytabAddCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363637440354E-4" y="-16.499545454545455" />
+      <point x="-28.000363636364" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.ChangePasswordCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363637724571E-4" y="-16.499545454545455" />
+      <point x="1147.499636363636" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363637724571E-4" y="-16.499545454545455" />
+      <point x="538.499636363636" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.DeletePrincipalCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363637724571E-4" y="-16.499545454545455" />
+      <point x="1468.499636363636" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.ListPrincipalCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363639998308E-4" y="-16.499545454545455" />
+      <point x="2076.4996363636365" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalsCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363637724571E-4" y="-16.499545454545455" />
+      <point x="832.499636363636" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.KeytabRemoveCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363637724571E-4" y="-16.499545454545455" />
+      <point x="1778.999636363636" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.tool.kadmin.command.ModifyPrincipalCommand" target="org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand" relationship="GENERALIZATION">
+      <point x="-3.636363639998308E-4" y="-16.499545454545455" />
+      <point x="2375.9996363636365" y="41.04545454545455" />
+      <point x="1307.999636363636" y="41.04545454545455" />
+      <point x="-3.636363637724571E-4" y="16.500454545454545" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="2763.5" y="82.5" />
+  <SelectedNodes>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.KeytabRemoveCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.ModifyPrincipalCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalsCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.DeletePrincipalCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.RenamePrincipalCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.KadminCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.GetPrincipalCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.KeytabAddCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.ChangePasswordCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.ListPrincipalCommand</node>
+    <node>org.apache.kerby.kerberos.tool.kadmin.command.AddPrincipalCommand</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

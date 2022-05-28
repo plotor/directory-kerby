@@ -1,23 +1,25 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.kerb.server;
+
+import java.io.File;
 
 import org.apache.kerby.KOption;
 import org.apache.kerby.KOptions;
@@ -27,11 +29,12 @@ import org.apache.kerby.kerberos.kerb.identity.backend.IdentityBackend;
 import org.apache.kerby.kerberos.kerb.server.impl.DefaultInternalKdcServerImpl;
 import org.apache.kerby.kerberos.kerb.server.impl.InternalKdcServer;
 
-import java.io.File;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The implemented Kerberos Server API.
  */
+@Slf4j
 public class KdcServer {
     private final KdcConfig kdcConfig;
     private final BackendConfig backendConfig;
@@ -42,12 +45,13 @@ public class KdcServer {
 
     /**
      * Constructor passing both kdcConfig and backendConfig.
-     * @param kdcConfig The kdc config
+     *
+     * @param kdcConfig     The kdc config
      * @param backendConfig The backend config
      * @throws KrbException e
      */
     public KdcServer(KdcConfig kdcConfig,
-                  BackendConfig backendConfig) throws KrbException {
+                     BackendConfig backendConfig) throws KrbException {
         this.kdcConfig = kdcConfig;
         this.backendConfig = backendConfig;
         startupOptions = new KOptions();
@@ -93,6 +97,7 @@ public class KdcServer {
 
     /**
      * Set KDC realm for ticket request
+     *
      * @param realm The kdc realm
      */
     public void setKdcRealm(String realm) {
@@ -101,6 +106,7 @@ public class KdcServer {
 
     /**
      * Set KDC host.
+     *
      * @param kdcHost The kdc host
      */
     public void setKdcHost(String kdcHost) {
@@ -109,6 +115,7 @@ public class KdcServer {
 
     /**
      * Set KDC port.
+     *
      * @param kdcPort The kdc port
      */
     public void setKdcPort(int kdcPort) {
@@ -128,6 +135,7 @@ public class KdcServer {
 
     /**
      * Set KDC tcp port.
+     *
      * @param kdcTcpPort The kdc tcp port
      */
     public void setKdcTcpPort(int kdcTcpPort) {
@@ -147,6 +155,7 @@ public class KdcServer {
 
     /**
      * Set to allow UDP or not.
+     *
      * @param allowUdp true if allow udp
      */
     public void setAllowUdp(boolean allowUdp) {
@@ -155,6 +164,7 @@ public class KdcServer {
 
     /**
      * Set to allow TCP or not.
+     *
      * @param allowTcp true if allow tcp
      */
     public void setAllowTcp(boolean allowTcp) {
@@ -163,6 +173,7 @@ public class KdcServer {
 
     /**
      * Set KDC udp port. Only makes sense when allowUdp is set.
+     *
      * @param kdcUdpPort The kdc udp port
      */
     public void setKdcUdpPort(int kdcUdpPort) {
@@ -182,6 +193,7 @@ public class KdcServer {
 
     /**
      * Set runtime folder.
+     *
      * @param workDir The work dir
      */
     public void setWorkDir(File workDir) {
@@ -206,6 +218,7 @@ public class KdcServer {
 
     /**
      * Get KDC setting from startup options and configs.
+     *
      * @return setting
      */
     public KdcSetting getKdcSetting() {
@@ -214,6 +227,7 @@ public class KdcServer {
 
     /**
      * Get the KDC config.
+     *
      * @return KdcConfig
      */
     public KdcConfig getKdcConfig() {
@@ -231,6 +245,7 @@ public class KdcServer {
 
     /**
      * Get identity service.
+     *
      * @return IdentityService
      */
     public IdentityBackend getIdentityService() {
@@ -247,12 +262,12 @@ public class KdcServer {
      */
     public void init() throws KrbException {
         if (startupOptions.contains(KdcServerOption.INNER_KDC_IMPL)) {
-            innerKdc = (InternalKdcServer) startupOptions.getOptionValue(
-                    KdcServerOption.INNER_KDC_IMPL);
+            innerKdc = (InternalKdcServer) startupOptions.getOptionValue(KdcServerOption.INNER_KDC_IMPL);
         } else {
             innerKdc = new DefaultInternalKdcServerImpl(kdcSetting);
         }
 
+        log.info("Init kdc server, kdc impl is {}", innerKdc.getClass().getSimpleName());
         innerKdc.init();
     }
 

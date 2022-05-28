@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.kerby.kerberos.kerb.admin.kadmin.Kadmin</OriginalElement>
+  <nodes>
+    <node x="196.74999999999994" y="18.0">org.apache.kerby.kerberos.kerb.admin.kadmin.remote.RemoteKadminImpl</node>
+    <node x="454.75000000000006" y="18.0">org.apache.kerby.has.client.HasAuthAdminClient</node>
+    <node x="268.0" y="-65.0">org.apache.kerby.kerberos.kerb.admin.kadmin.Kadmin</node>
+    <node x="-2.25" y="18.0">org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadmin</node>
+    <node x="-21.25" y="101.0">org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadminImpl</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadminImpl" target="org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadmin" relationship="REALIZATION">
+      <point x="0.0" y="-16.5" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.apache.kerby.has.client.HasAuthAdminClient" target="org.apache.kerby.kerberos.kerb.admin.kadmin.Kadmin" relationship="REALIZATION">
+      <point x="0.0" y="-16.5" />
+      <point x="579.75" y="-7.0" />
+      <point x="333.5" y="-7.0" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadmin" target="org.apache.kerby.kerberos.kerb.admin.kadmin.Kadmin" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-16.5" />
+      <point x="87.25" y="-48.5" />
+      <point x="-65.5" y="0.0" />
+    </edge>
+    <edge source="org.apache.kerby.kerberos.kerb.admin.kadmin.remote.RemoteKadminImpl" target="org.apache.kerby.kerberos.kerb.admin.kadmin.Kadmin" relationship="REALIZATION">
+      <point x="5.6843418860808015E-14" y="-16.5" />
+      <point x="315.75" y="-7.0" />
+      <point x="333.5" y="-7.0" />
+      <point x="0.0" y="16.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="495.5" y="3.0" />
+  <SelectedNodes>
+    <node>org.apache.kerby.kerberos.kerb.admin.kadmin.remote.RemoteKadminImpl</node>
+    <node>org.apache.kerby.has.client.HasAuthAdminClient</node>
+    <node>org.apache.kerby.kerberos.kerb.admin.kadmin.Kadmin</node>
+    <node>org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadmin</node>
+    <node>org.apache.kerby.kerberos.kerb.admin.kadmin.local.LocalKadminImpl</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

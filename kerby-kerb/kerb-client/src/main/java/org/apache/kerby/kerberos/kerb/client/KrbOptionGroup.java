@@ -25,6 +25,7 @@ import org.apache.kerby.KOptionGroup;
  * This defines option groups to categorize the options defined in client side.
  */
 public enum KrbOptionGroup implements KOptionGroup {
+
     NONE,
     KRB,
     KDC_FLAGS,

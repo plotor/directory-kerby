@@ -1,34 +1,23 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-package org.apache.kerby.kerberos.kerb.admin.kadmin.local;
 
-import org.apache.kerby.KOptions;
-import org.apache.kerby.kerberos.kerb.KrbException;
-import org.apache.kerby.kerberos.kerb.admin.kadmin.KadminOption;
-import org.apache.kerby.kerberos.kerb.keytab.Keytab;
-import org.apache.kerby.kerberos.kerb.keytab.KeytabEntry;
-import org.apache.kerby.kerberos.kerb.request.KrbIdentity;
-import org.apache.kerby.kerberos.kerb.type.base.EncryptionKey;
-import org.apache.kerby.kerberos.kerb.type.base.EncryptionType;
-import org.apache.kerby.kerberos.kerb.type.KerberosTime;
-import org.apache.kerby.kerberos.kerb.type.base.PrincipalName;
+package org.apache.kerby.kerberos.kerb.admin.kadmin.local;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,12 +27,24 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.kerby.KOptions;
+import org.apache.kerby.kerberos.kerb.KrbException;
+import org.apache.kerby.kerberos.kerb.admin.kadmin.KadminOption;
+import org.apache.kerby.kerberos.kerb.keytab.Keytab;
+import org.apache.kerby.kerberos.kerb.keytab.KeytabEntry;
+import org.apache.kerby.kerberos.kerb.request.KrbIdentity;
+import org.apache.kerby.kerberos.kerb.type.KerberosTime;
+import org.apache.kerby.kerberos.kerb.type.base.EncryptionKey;
+import org.apache.kerby.kerberos.kerb.type.base.EncryptionType;
+import org.apache.kerby.kerberos.kerb.type.base.PrincipalName;
+
 /**
  * LocalKadmin utilities.
  */
 public final class AdminHelper {
 
-    private AdminHelper() { }
+    private AdminHelper() {
+    }
 
     /**
      * Export all the keys of the specified principal into the specified keytab
@@ -142,7 +143,7 @@ public final class AdminHelper {
             }
         } catch (IOException e) {
             throw new KrbException("Failed to load or create keytab "
-                + keytabFile.getAbsolutePath(), e);
+                    + keytabFile.getAbsolutePath(), e);
         }
 
         return keytab;
@@ -156,7 +157,7 @@ public final class AdminHelper {
      * @throws KrbException If there is a problem exporting the identity to the keytab
      */
     public static void exportToKeytab(Keytab keytab, KrbIdentity identity)
-        throws KrbException {
+            throws KrbException {
 
         //Add principal to keytab.
         PrincipalName principal = identity.getPrincipal();
@@ -257,8 +258,7 @@ public final class AdminHelper {
      * @return the created principal identity
      * @throws KrbException If there is a problem in creating the principal
      */
-    public static KrbIdentity createIdentity(String principal, KOptions kOptions)
-        throws KrbException {
+    public static KrbIdentity createIdentity(String principal, KOptions kOptions) throws KrbException {
         KrbIdentity kid = new KrbIdentity(principal);
         kid.setCreatedTime(KerberosTime.now());
         if (kOptions.contains(KadminOption.EXPIRE)) {

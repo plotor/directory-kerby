@@ -1,25 +1,34 @@
 /**
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
 package org.apache.kerby.kerberos.kdc.identitybackend;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.rowset.serial.SerialBlob;
+
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.kerby.config.Config;
 import org.apache.kerby.kerberos.kerb.KrbException;
@@ -31,14 +40,7 @@ import org.apache.kerby.kerberos.kerb.type.base.EncryptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.ResultSet;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import javax.sql.rowset.serial.SerialBlob;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+import com.alibaba.druid.pool.DruidDataSource;
 
 /**
  * A MySQL based backend implementation.
@@ -67,7 +69,7 @@ public class MySQLIdentityBackend extends AbstractIdentityBackend {
      * @throws SQLException e
      */
     private void initializeDataSource(
-        String driver, String url, String user, String password) throws SQLException {
+            String driver, String url, String user, String password) throws SQLException {
         dataSource = new DruidDataSource();
         dataSource.setDriverClassName(driver);
         dataSource.setUrl(url);
@@ -155,23 +157,23 @@ public class MySQLIdentityBackend extends AbstractIdentityBackend {
 
             // Create identity table
             String stmIdentity = "CREATE TABLE IF NOT EXISTS " + identityTable
-                + " (principal varchar(255) NOT NULL, key_version INTEGER "
-                + "DEFAULT 1, kdc_flags INTEGER DEFAULT 0, disabled bool "
-                + "DEFAULT NULL, locked bool DEFAULT NULL, created_time "
-                + "BIGINT DEFAULT 0, expire_time BIGINT DEFAULT 0, "
-                + "PRIMARY KEY (principal) ) ENGINE=INNODB "
-                + "DEFAULT CHARSET=utf8;";
+                    + " (principal varchar(255) NOT NULL, key_version INTEGER "
+                    + "DEFAULT 1, kdc_flags INTEGER DEFAULT 0, disabled bool "
+                    + "DEFAULT NULL, locked bool DEFAULT NULL, created_time "
+                    + "BIGINT DEFAULT 0, expire_time BIGINT DEFAULT 0, "
+                    + "PRIMARY KEY (principal) ) ENGINE=INNODB "
+                    + "DEFAULT CHARSET=utf8;";
             preIdentity = connection.prepareStatement(stmIdentity);
             preIdentity.executeUpdate();
 
             // Create key table
             String stmKey = "CREATE TABLE IF NOT EXISTS " + keyInfoTable
-                + " (key_id INTEGER NOT NULL AUTO_INCREMENT, key_type "
-                + "VARCHAR(255) DEFAULT NULL, kvno INTEGER DEFAULT -1, "
-                + "key_value BLOB DEFAULT NULL, principal VARCHAR(255) NOT NULL,"
-                + "PRIMARY KEY (key_id), INDEX (principal), FOREIGN KEY "
-                + "(principal) REFERENCES " + identityTable + "(principal) "
-                + ") ENGINE=INNODB DEFAULT CHARSET=utf8;";
+                    + " (key_id INTEGER NOT NULL AUTO_INCREMENT, key_type "
+                    + "VARCHAR(255) DEFAULT NULL, kvno INTEGER DEFAULT -1, "
+                    + "key_value BLOB DEFAULT NULL, principal VARCHAR(255) NOT NULL,"
+                    + "PRIMARY KEY (key_id), INDEX (principal), FOREIGN KEY "
+                    + "(principal) REFERENCES " + identityTable + "(principal) "
+                    + ") ENGINE=INNODB DEFAULT CHARSET=utf8;";
             preKey = connection.prepareStatement(stmKey);
             preKey.executeUpdate();
 
@@ -233,8 +235,8 @@ public class MySQLIdentityBackend extends AbstractIdentityBackend {
 
                 // Insert identity to identity table
                 String stmIdentity = "INSERT INTO " + identityTable
-                    + " (principal, key_version, kdc_flags, disabled, locked,"
-                    + " created_time, expire_time) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                        + " (principal, key_version, kdc_flags, disabled, locked,"
+                        + " created_time, expire_time) VALUES(?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement preIdentity = connection.prepareStatement(stmIdentity)) {
                     preIdentity.setString(1, principalName);
                     preIdentity.setInt(2, keyVersion);
@@ -249,7 +251,7 @@ public class MySQLIdentityBackend extends AbstractIdentityBackend {
                 // Insert keys to key table
                 for (Map.Entry<EncryptionType, EncryptionKey> entry : keys.entrySet()) {
                     String stmKey = "INSERT INTO " + keyInfoTable
-                        + " (key_type, kvno, key_value, principal) VALUES(?, ?, ?, ?)";
+                            + " (key_type, kvno, key_value, principal) VALUES(?, ?, ?, ?)";
                     try (PreparedStatement preKey = connection.prepareStatement(stmKey)) {
                         preKey.setString(1, entry.getKey().getName());
                         preKey.setInt(2, entry.getValue().getKvno());
@@ -293,7 +295,7 @@ public class MySQLIdentityBackend extends AbstractIdentityBackend {
 
             // Get identity from identity and key table
             String stmIdentity = String.format("SELECT * FROM %s a left join %s b on "
-                + "a.principal = b.principal where a.principal = ?", identityTable, keyInfoTable);
+                    + "a.principal = b.principal where a.principal = ?", identityTable, keyInfoTable);
             preIdentity = connection.prepareStatement(stmIdentity);
             preIdentity.setString(1, principalName);
             resIdentity = preIdentity.executeQuery();
